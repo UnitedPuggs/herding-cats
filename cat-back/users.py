@@ -32,12 +32,9 @@ async def not_found(e):
 # ------------------ #
 #       Routes       #
 # ------------------ #
-@app.route("/user/login", methods=["GET"]) 
-@validate_request(User)
+@app.route("/user/login/<string:username>", methods=["GET"])
 @tag("user")
-async def login():
-    login_info = await request.get_json()
-    username = login_info["username"]
+async def login(username):
     #Just something super basic for now, will probably use the reponse from this to create some sorta hashed cookie in sveltekit
     try:
         data = supabase.table("users").select("*").eq("username", username).execute()
